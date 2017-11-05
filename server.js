@@ -6,42 +6,32 @@ app.use(express.static(path.join(__dirname, 'public')));
 var bodyParser = require('body-parser')
 app.use(bodyParser.json());                         // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({extended: true}));   // to support URL-encoded bodies
-
-var heroes = [
-	{"id": "1", "name":"heroes1"},
-	{"id": "2", "name":"heroes2"},
-	{"id": "3", "name":"heroes3"}
-];
+var heroes = require("./public/logic");
 
 http.listen(3000, function(){
 	console.log('listening on *:3000');
 });
 
+var logic = new heroes();
+
 app.route('/heroes')
 	.get(function (req, res) {
-		res.send(heroes);
+		res.send(logic.getAllHeroes());
 	})
 	.post(function (req, res) {
-		heroes.push(req.body);
-		res.send(heroes);
+		res.send(logic.addHeroe(req.body.id, req.body.name));
 	})
 	.delete(function (req, res) {
-		heroes.splice(heroes.findIndex((hero) => hero.name === req.query.name), 1);
-		res.send(heroes);
+		res.send(logic.deletHeroe(req.query.name));
 	});
 
 app.route('/heroes/:id')
 	.get(function (req, res) {
-		var retHeroes = heroes.find(function(hero){
-			return hero.id === req.params.id;
-		});
-		res.send(retHeroes);
+		res.send(logic.getOneHeroes(req.params.id));
 	})
 	.put(function (req, res) {
-		heroes.find((hero) => hero.id === req.params.id).name = req.query.name;
-		res.send(heroes);
+		res.send(logic.editHeroe(req.params.id, req.query.name));
 	})
 	.delete(function (req, res) {
-		heroes.splice(heroes.findIndex((hero) => hero.id === req.params.id), 1);
-		res.send(heroes);
+		res.send(logic.deletHeroe(req.params.id));
 	});
