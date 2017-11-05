@@ -24,11 +24,14 @@ app.route('/heroes')
 	.post(function (req, res) {
 		heroes.push(req.body);
 		res.send(heroes);
+	})
+	.delete(function (req, res) {
+		heroes.splice(heroes.findIndex((hero) => hero.name === req.query.name), 1);
+		res.send(heroes);
 	});
 
 app.route('/heroes/:id')
 	.get(function (req, res) {
-		/*	heroes.find((hero) => hero.id == req.params.id);*/
 		var retHeroes = heroes.find(function(hero){
 			return hero.id === req.params.id;
 		});
