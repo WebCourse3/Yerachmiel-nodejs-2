@@ -6,13 +6,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 var bodyParser = require('body-parser')
 app.use(bodyParser.json());                         // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({extended: true}));   // to support URL-encoded bodies
-var heroes = require("./public/logic");
+var logicFile = require("./public/logic");
+var logic = new logicFile();
 
 http.listen(3000, function(){
 	console.log('listening on *:3000');
 });
-
-var logic = new heroes();
 
 app.route('/heroes')
 	.get(function (req, res) {
@@ -22,7 +21,7 @@ app.route('/heroes')
 		res.send(logic.addHeroe(req.body.id, req.body.name));
 	})
 	.delete(function (req, res) {
-		res.send(logic.deletHeroe(req.query.name));
+		res.send(logic.deletByName(req.query.name));
 	});
 
 app.route('/heroes/:id')
@@ -33,5 +32,5 @@ app.route('/heroes/:id')
 		res.send(logic.editHeroe(req.params.id, req.query.name));
 	})
 	.delete(function (req, res) {
-		res.send(logic.deletHeroe(req.params.id));
+		res.send(logic.deletById(req.params.id));
 	});

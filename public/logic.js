@@ -15,8 +15,12 @@ class heroeLogic {
 		heroes.find((heroe) => heroe.id === id).name = name;
 		return heroes;
 	}
-	deletHeroe(id){
+	deletById(id){
 		heroes.splice(heroes.findIndex((heroe) => heroe.id === id), 1);
+		return heroes;
+	}
+	deletByName(name){
+		heroes.splice(heroes.findIndex((heroe) => heroe.name === name), 1);
 		return heroes;
 	}
 }
