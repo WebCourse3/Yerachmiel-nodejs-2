@@ -1,4 +1,5 @@
 import { Level } from './levels';
+var fs = require('fs');
 
 class Logger{
 	name: string;
@@ -13,31 +14,42 @@ class Logger{
 		this.logFunctions[level](strings);
 	}
 
-	logFunctions = {
+	logFunctions :any = {
 		"info":    this.info,
 		"warning": this.warning,
 		"debug":   this.debug,
 		"error":   this.error
 	}
 
-	info(strings: string){
+	private info(strings: string):void{
 		console.log('\x1b[32m%s\x1b[0m', strings);
+		 this.writeToFile(strings);
 	}
 
-	warning(strings: string){
+	private warning(strings: string):void{
 		console.log('\x1b[33m%s\x1b[0m', strings);
 	}
 
-	debug(strings: string){
+	private debug(strings: string):void{
 		console.log('\x1b[36m%s\x1b[0m', strings);
 	}
 
-	error(strings: string){
+	private error(strings: string):void{
 		console.log('\x1b[31m%s\x1b[0m', strings);
 	}
 
+	private writeToFile(strings: string):void{
+		// fs.writeFile("/logs/log file", strings, function(err:any) {
+		// 	if(err) {
+		// 		return console.log(err);
+		// 	}
+		//
+		// 	console.log("The file was saved!");
+		// });
+		console.log('\x1b[33m%s\x1b[0m', strings);
+	}
 }
 
 var logObj = new Logger("log 1", {console:true, file:false, colors:true, logLevel:true });
 
-logObj.log(Level.error, "Test message");
+logObj.log(Level.info, "Test message");

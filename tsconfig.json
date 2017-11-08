@@ -8,10 +8,9 @@
     "outFile": "../../built/local/tsc.js",
     "sourceMap": true
   },
-  "files": [
 
-  ]
-/*  "exclude": [
+
+  "exclude": [
     "node_modules"
-  ]*/
+  ]
 }
