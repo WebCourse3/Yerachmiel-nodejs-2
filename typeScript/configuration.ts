@@ -1,4 +1,4 @@
-interface Configuration{
+export interface Configuration{
 	console: Boolean,
 	file: Boolean,
 	colors: Boolean,

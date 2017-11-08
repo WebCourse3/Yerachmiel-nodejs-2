@@ -1,6 +1,8 @@
 import { Level } from './levels';
+import { LoggerInterface } from './loggerInterface';
+import { Configuration } from './configuration';
 
-class Logger{
+class FileLogger implements LoggerInterface{
 	name: string;
 	configuration: Configuration;
 
@@ -9,35 +11,35 @@ class Logger{
 		this.configuration = configuration;
 	}
 
-	log(level: Level, strings: string){
+	log(level: Level, ...strings: string[]){
 		this.logFunctions[level](strings);
 	}
 
-	logFunctions = {
+	private logFunctions = {
 		"info":    this.info,
 		"warning": this.warning,
 		"debug":   this.debug,
 		"error":   this.error
 	}
 
-	info(strings: string){
+	info(...strings: string[]){
 		console.log('\x1b[32m%s\x1b[0m', strings);
 	}
 
-	warning(strings: string){
+	warning(...strings: string[]){
 		console.log('\x1b[33m%s\x1b[0m', strings);
 	}
 
-	debug(strings: string){
+	debug(...strings: string[]){
 		console.log('\x1b[36m%s\x1b[0m', strings);
 	}
 
-	error(strings: string){
+	error(...strings: string[]){
 		console.log('\x1b[31m%s\x1b[0m', strings);
 	}
 
 }
 
-var logObj = new Logger("log 1", {console:true, file:false, colors:true, logLevel:true });
+var logObj = new FileLogger("log 1", {console:true, file:false, colors:true, logLevel:true });
 
-logObj.log(Level.error, "Test message");
+logObj.log(Level.error, "Test message", "Test2", "Test3");
