@@ -1,9 +1,8 @@
-/*
 import { Level } from './levels';
 import { LoggerInterface } from './loggerInterface';
 import { Configuration } from './configuration';
 
-class ConsoleLogger implements LoggerInterface{
+export class ConsoleLogger implements LoggerInterface{
 	name: string;
 	configuration: Configuration;
 
@@ -13,7 +12,12 @@ class ConsoleLogger implements LoggerInterface{
 	};
 
 	log(level: Level, ...strings: string[]){
-		this.logFunctions[level](...strings);
+		if (level === null){
+			this.noneColors(...strings);
+		}
+		else {
+			this.logFunctions[level](...strings);
+		}
 	};
 
 	private logFunctions: {[key: string]: (...strings: string[])=>void; } = {
@@ -40,12 +44,12 @@ class ConsoleLogger implements LoggerInterface{
 	};
 
 	noneColors(...strings: string[]){
-		console.log(strings);
+		console.log(...strings);
 	};
 
 }
 
 let logObj = new ConsoleLogger("log 1", {console:true, file:false, colors:true, logLevel:true });
 
-logObj.log(null, "Test message", "Test2", "Test3");
-console.log("123");*/
+logObj.log(Level.error, "Test message", "Test2", "Test3");
+logObj.noneColors("2");

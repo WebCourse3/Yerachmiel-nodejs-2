@@ -1,15 +1,17 @@
-/*
 import { Level } from './levels';
 import { LoggerInterface } from './loggerInterface';
 import { Configuration } from './configuration';
+import { ConsoleLogger } from './consoleLogger2';
+import { FileLogger } from './fileLogger';
 
-class ConsoleLogger implements LoggerInterface{
+class MainLogger implements LoggerInterface{
 	name: string;
 	configuration: Configuration;
 
 	constructor(name: string, configuration: Configuration){
 		this.name = name;
 		this.configuration = configuration;
+
 	};
 
 	log(level: Level, ...strings: string[]){
@@ -24,7 +26,17 @@ class ConsoleLogger implements LoggerInterface{
 	};
 
 	info(...strings: string[]){
-		console.log('\x1b[32m%s\x1b[0m', strings);
+		if (this.configuration.file === true){
+			new FileLogger(this.name, this.configuration).log(...strings);
+		}
+		if (this.configuration.colors === true){
+			if (this.configuration.colors === true){
+				new ConsoleLogger(this.name, this.configuration).log(Level.info, ...strings);
+			}
+			else {
+				new ConsoleLogger(this.name, this.configuration).log(null, ...strings);
+			}
+		}
 	};
 
 	warning(...strings: string[]){
@@ -39,13 +51,8 @@ class ConsoleLogger implements LoggerInterface{
 		console.log('\x1b[31m%s\x1b[0m', strings);
 	};
 
-	noneColors(...strings: string[]){
-		console.log(strings);
-	};
-
 }
 
-let logObj = new ConsoleLogger("log 1", {console:true, file:false, colors:true, logLevel:true });
+let logObj = new MainLogger("log 1", {console:true, file:false, colors:true, logLevel:true });
 
-logObj.log(null, "Test message", "Test2", "Test3");
-console.log("123");*/
+logObj.log(Level.error, "Test message", "Test2", "Test3");

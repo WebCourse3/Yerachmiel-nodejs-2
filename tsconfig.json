@@ -9,9 +9,11 @@
     "sourceMap": true
   },
   "files": [
-
-  ]
-/*  "exclude": [
+    "typeScript/fileLogger.ts", "typeScript/consoleLogger.ts", "typeScript/configuration.ts",
+    "typeScript/levels.ts", "typeScript/loggerInterface.ts"
+  ],
+  "exclude": [
     "node_modules"
-  ]*/
+  ]
+
 }
