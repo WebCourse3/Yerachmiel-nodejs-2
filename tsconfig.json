@@ -5,12 +5,10 @@
     "noImplicitAny": true,
     "removeComments": true,
     "preserveConstEnums": true,
-    "outFile": "../../built/local/tsc.js",
     "sourceMap": true
   },
   "files": [
-    "typeScript/fileLogger.ts", "typeScript/consoleLogger.ts", "typeScript/configuration.ts",
-    "typeScript/levels.ts", "typeScript/loggerInterface.ts"
+    "typeScript/*"
   ],
   "exclude": [
     "node_modules"

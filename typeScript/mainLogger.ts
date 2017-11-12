@@ -11,27 +11,15 @@ class MainLogger implements LoggerInterface{
 	constructor(name: string, configuration: Configuration){
 		this.name = name;
 		this.configuration = configuration;
-
 	};
 
 	log(level: Level, ...strings: string[]){
-		this.logFunctions[level](...strings);
-	};
-
-	private logFunctions: {[key: string]: (...strings: string[])=>void; } = {
-		"info":    this.info,
-		"warning": this.warning,
-		"debug":   this.debug,
-		"error":   this.error
-	};
-
-	info(...strings: string[]){
-		if (this.configuration.file === true){
+		if (this.configuration.file){
 			new FileLogger(this.name, this.configuration).log(...strings);
 		}
-		if (this.configuration.colors === true){
-			if (this.configuration.colors === true){
-				new ConsoleLogger(this.name, this.configuration).log(Level.info, ...strings);
+		if (this.configuration.colors){
+			if (this.configuration.colors){
+				new ConsoleLogger(this.name, this.configuration).log(level, ...strings);
 			}
 			else {
 				new ConsoleLogger(this.name, this.configuration).log(null, ...strings);
@@ -39,20 +27,24 @@ class MainLogger implements LoggerInterface{
 		}
 	};
 
+	info(...strings: string[]){
+		this.log(Level.info,...strings);
+	};
+
 	warning(...strings: string[]){
-		console.log('\x1b[33m%s\x1b[0m', strings);
+		this.log(Level.warning,...strings);
 	};
 
 	debug(...strings: string[]){
-		console.log('\x1b[36m%s\x1b[0m', strings);
+		this.log(Level.debug,...strings);
 	};
 
 	error(...strings: string[]){
-		console.log('\x1b[31m%s\x1b[0m', strings);
+		this.log(Level.error,...strings);
 	};
 
 }
 
 let logObj = new MainLogger("log 1", {console:true, file:false, colors:true, logLevel:true });
 
-logObj.log(Level.error, "Test message", "Test2", "Test3");
+logObj.log(Level.info, "Test message", "Test3", "Test4");
